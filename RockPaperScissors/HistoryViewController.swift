@@ -11,16 +11,18 @@ import UIKit
 class HistoryViewController: UIViewController, UITableViewDataSource {
     var history:[RPSMatch]!
     
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return history.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("history")!
+        let cell = tableView.dequeueReusableCellWithIdentifier("history") as! HistoryTableCell
         let match = history[indexPath.row]
         
-        cell.textLabel?.text = matchResult(match)
-        cell.detailTextLabel?.text = match.p1.description + " vs. " + match.p2.description
+        cell.matchResultLabel.text = matchResult(match)
+        cell.playerImage.image = imageForRPS(match.p1)
+        cell.computerImage.image = imageForRPS(match.p2)
         
         return cell
     }
@@ -34,5 +36,17 @@ class HistoryViewController: UIViewController, UITableViewDataSource {
             return "Loss."
         }
     }
-
+    
+    func imageForRPS(rps:RPS) -> UIImage {
+        var image:UIImage!
+        switch rps {
+        case .Paper:
+            image = UIImage(named: "paper")
+        case .Rock:
+            image = UIImage(named:  "rock")
+        case .Scissors:
+            image = UIImage(named:  "scissors")
+        }
+        return image
+    }
 }
