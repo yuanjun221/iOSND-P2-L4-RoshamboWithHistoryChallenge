@@ -19,19 +19,20 @@ class HistoryViewController: UIViewController, UITableViewDataSource {
         let cell = tableView.dequeueReusableCellWithIdentifier("history")!
         let match = history[indexPath.row]
         
-        var status:String!
-        
-        if match.p1 == match.winner {
-            status = " win!"
-        }
-        if match.p1 == match.loser {
-            status = " lose."
-        }
-        
-        cell.textLabel?.text = "You" + status
-        cell.detailTextLabel?.text = match.p1.description + " VS. " + match.p2.description
+        cell.textLabel?.text = matchResult(match)
+        cell.detailTextLabel?.text = match.p1.description + " vs. " + match.p2.description
         
         return cell
+    }
+    
+    func matchResult(match: RPSMatch) -> String {
+        if match.p1 == match.p2 {
+            return "Tie."
+        } else if match.p1.defeats(match.p2){
+            return "Win!"
+        } else {
+            return "Loss."
+        }
     }
 
 }
